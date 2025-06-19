@@ -1,0 +1,73 @@
+postman_collection = {
+    "info": {
+        "name": "BookAPI",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Book (Protected)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {"key": "X-API-Key", "value": "valid-key"},
+                    {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": '{\n  "title": "The Great Gatsby",\n  "author": "F. Scott Fitzgerald",\n  "published_date": "1925-04-10",\n  "isbn": "9780743273565",\n  "page_count": 180,\n  "language": "English"\n}'
+                },
+                "url": {"raw": "http://localhost:8000/api/books/", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["api", "books"]}
+            }
+        },
+        {
+            "name": "Upload Cover Image",
+            "request": {
+                "method": "POST",
+                "header": [{"key": "X-API-Key", "value": "valid-key"}],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {"key": "cover", "type": "file", "src": "cover.jpg"}
+                    ]
+                },
+                "url": {"raw": "http://localhost:8000/api/books/1/upload-cover/", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["api", "books", "1", "upload-cover"]}
+            }
+        },
+        {
+            "name": "Get Book with Cover",
+            "request": {
+                "method": "GET",
+                "url": {"raw": "http://localhost:8000/api/books/1/", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["api", "books", "1"]}
+            }
+        },
+        {
+            "name": "Invalid API Key Test",
+            "request": {
+                "method": "DELETE",
+                "header": [{"key": "X-API-Key", "value": "invalid-key"}],
+                "url": {"raw": "http://localhost:8000/api/books/1/", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["api", "books", "1"]}
+            }
+        },
+        {
+            "name": "Upload Invalid File Type",
+            "request": {
+                "method": "POST",
+                "header": [{"key": "X-API-Key", "value": "valid-key"}],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {"key": "cover", "type": "file", "src": "sample.pdf"}
+                    ]
+                },
+                "url": {"raw": "http://localhost:8000/api/books/1/upload-cover/", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["api", "books", "1", "upload-cover"]}
+            }
+        }
+    ]
+}
+import json
+postman_path = "/mnt/data/BookAPI.postman_collection.json"
+with open(postman_path, "w") as f:
+    json.dump(postman_collection, f, indent=2)
+
+postman_path  # return path for download
+
